@@ -12,6 +12,8 @@ export default defineConfig({
                 'resources/js/sidebar.js',
                 'resources/js/members.js',
                 'resources/js/payments/create.js',
+                'resources/css/attendance.css',
+                'resources/js/attendance.js',
             ],
             refresh: true,
         }),

@@ -29,7 +29,10 @@ Route::middleware('auth')->group(function () {
     // Prórroga para un socio que avisó que paga más tarde
     Route::post('memberships/{membership}/extend', [MembershipController::class, 'extend'])->name('memberships.extend');
 
+    Route::get('attendances', [AttendanceController::class, 'index'])->name('attendances.index');
+    Route::get('attendances/search', [AttendanceController::class, 'search'])->name('attendances.search')->middleware('throttle:120,1');
     Route::post('attendances', [AttendanceController::class, 'store'])->name('attendances.store');
+    Route::delete('attendances/{attendance}', [AttendanceController::class, 'destroy'])->name('attendances.destroy');
     Route::get('dues', [DueController::class, 'index'])->name('dues.index');
     Route::post('dues/{member}/notify', [DueController::class, 'notify'])->name('dues.notify');
 

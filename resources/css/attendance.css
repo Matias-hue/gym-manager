@@ -1,0 +1,25 @@
+/* Pantalla de visitas: animación del resultado al anotar */
+.attendance-result {
+    animation: attendance-pop 0.25s ease-out;
+}
+
+.attendance-result[data-status='overdue'] {
+    animation: attendance-shake 0.35s ease-in-out;
+}
+
+@keyframes attendance-pop {
+    from {
+        opacity: 0;
+        transform: translateY(-6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@keyframes attendance-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
