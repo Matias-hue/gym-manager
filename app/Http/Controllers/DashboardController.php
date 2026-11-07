@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
+use App\Services\DashboardStats;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request, DashboardStats $stats): View
     {
-        return view('dashboard');
+        $user = $request->user();
+
+        abort_unless($user->gym_id, 403, 'Tu usuario no pertenece a ningún gimnasio.');
+
+        return view('dashboard', $stats->handle($user));
     }
 }

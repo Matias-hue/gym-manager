@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Membership extends Model
 {
@@ -25,6 +26,26 @@ class Membership extends Model
         return $this->belongsTo(Plan::class);
     }
 
+    // Último día en que el socio todavía está "en gracia"
+    public function graceEndsOn(int $graceDays = 14): Carbon
+    {
+        $graceEnd = $this->ends_on->copy()->addDays($graceDays);
+
+        // La prórroga solo puede alargar la tolerancia, nunca acortarla
+        if ($this->grace_until && $this->grace_until->gt($graceEnd)) {
+            $graceEnd = $this->grace_until->copy();
+        }
+
+        return $graceEnd;
+    }
+
+    // true si la tolerancia llega más lejos por una prórroga dada a mano
+    public function hasExtension(int $graceDays = 14): bool
+    {
+        return $this->grace_until !== null
+            && $this->grace_until->gt($this->ends_on->copy()->addDays($graceDays));
+    }
+
     // current | grace | expired | cancelled
     public function state(int $graceDays = 14): string
     {
@@ -36,13 +57,6 @@ class Membership extends Model
             return 'current';
         }
 
-        $graceEnd = $this->ends_on->copy()->addDays($graceDays);
-
-        // La prórroga solo puede alargar la tolerancia, nunca acortarla
-        if ($this->grace_until && $this->grace_until->gt($graceEnd)) {
-            $graceEnd = $this->grace_until;
-        }
-
-        return today()->lte($graceEnd) ? 'grace' : 'expired';
+        return today()->lte($this->graceEndsOn($graceDays)) ? 'grace' : 'expired';
     }
 }
