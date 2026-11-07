@@ -20,6 +20,9 @@
     };
 
     $canNotify = $row['membership'] && filled($member->phone);
+
+    // La prórroga solo tiene sentido para quien ya venció (en gracia o vencido)
+    $canExtend = $row['membership'] && in_array($row['bucket'], ['gracia', 'vencidos'], true);
 @endphp
 
 <div class="flex flex-col gap-3 border-b border-stone-200 px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between">
@@ -49,7 +52,7 @@
         </div>
     </div>
 
-    <div class="flex shrink-0 gap-2">
+    <div class="flex shrink-0 flex-wrap gap-2">
         @if ($canNotify)
             {{-- POST: registra el aviso y redirige a WhatsApp en otra pestaña --}}
             <form method="POST" action="{{ route('dues.notify', $member) }}" target="_blank" rel="noopener">
@@ -63,6 +66,10 @@
             </form>
         @elseif ($row['membership'])
             <span class="inline-flex min-h-11 items-center px-2 text-xs text-stone-400">Sin celular</span>
+        @endif
+
+        @if ($canExtend)
+            <x-extend-grace-button :membership="$row['membership']" />
         @endif
 
         <a

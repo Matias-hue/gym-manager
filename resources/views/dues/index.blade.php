@@ -10,6 +10,7 @@
 @endphp
 
 <x-gym-layout title="Vencimientos">
+    <x-extend-grace-modal />
     <section
         class="min-h-[calc(100vh-3.5rem)] w-full px-6 py-9 lg:px-10 lg:py-10 xl:px-14"
         aria-labelledby="dues-title"
