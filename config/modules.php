@@ -1,27 +1,22 @@
 <?php
 
-/*
- * Ítems del menú lateral.
- *
- * - group:      'main' (menú principal) o 'modules' (módulos extra).
- * - route:      nombre de la ruta cuando la pantalla ya existe (ej. 'members.index').
- * - anchor:     mientras no exista la pantalla, lleva a una sección del dashboard (ej. '#dues').
- * - owner_only: true = solo lo ve el dueño.
- *
- * Si un ítem no tiene ni ruta ni anchor, el menú lo muestra apagado con la etiqueta "Pronto".
- * Para activar uno cuando termines su pantalla, solo completá 'route'. No hay que tocar nada más.
- */
-
+// Menú lateral. Para activar una pantalla nueva, completá su 'route'.
+// Si no hay 'route' ni 'anchor', el menú la muestra apagada con la etiqueta "Pronto".
 return [
-
-    ['group' => 'main', 'label' => 'Inicio',       'icon' => 'home',     'route' => 'dashboard'],
-    ['group' => 'main', 'label' => 'Socios',       'icon' => 'users',    'route' => null],  // luego: 'members.index'
-    ['group' => 'main', 'label' => 'Cobros',       'icon' => 'cash',     'route' => null, 'anchor' => '#payments'],
-    ['group' => 'main', 'label' => 'Visitas',      'icon' => 'check',    'route' => null, 'anchor' => '#attendance'],
-    ['group' => 'main', 'label' => 'Vencimientos', 'icon' => 'calendar', 'route' => null, 'anchor' => '#dues'],  // luego: 'dues.index'
-    ['group' => 'main', 'label' => 'Caja del día', 'icon' => 'bank',     'route' => null],  // luego: 'cash.index'
-    ['group' => 'main', 'label' => 'Reportes',     'icon' => 'chart',    'route' => null, 'owner_only' => true],  // luego: 'reports.index'
-
-    ['group' => 'modules', 'label' => 'Entrenamiento', 'icon' => 'dumbbell', 'route' => null],
-
+    ['group' => 'main', 'label' => 'Inicio', 'icon' => 'home',
+        'route' => 'dashboard'],
+    ['group' => 'main', 'label' => 'Socios', 'icon' => 'users',
+        'route' => 'members.index'],
+    ['group' => 'main', 'label' => 'Pagos', 'icon' => 'cash',
+        'route' => null, 'anchor' => '#payments'],
+    ['group' => 'main', 'label' => 'Visitas', 'icon' => 'check',
+        'route' => null, 'anchor' => '#attendance'],
+    ['group' => 'main', 'label' => 'Vencimientos', 'icon' => 'calendar',
+        'route' => 'dues.index'],
+    ['group' => 'main', 'label' => 'Caja del día', 'icon' => 'bank',
+        'route' => null], // luego: 'cash.index'
+    ['group' => 'main', 'label' => 'Reportes', 'icon' => 'chart',
+        'route' => null, 'owner_only' => true], // luego: 'reports.index'
+    ['group' => 'modules', 'label' => 'Entrenamiento', 'icon' => 'dumbbell',
+        'route' => null],
 ];

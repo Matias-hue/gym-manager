@@ -31,7 +31,7 @@ return new class extends Migration
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->foreignId('gym_id')->constrained()->cascadeOnDelete();
-            $table->string('document_number');
+            $table->string('document_number')->nullable();
             $table->string('first_name');
             $table->string('last_name');
             $table->string('phone')->nullable();
@@ -46,7 +46,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
 
-            $table->unique(['gym_id', 'document_number']);
+            $table->index(['gym_id', 'last_name', 'first_name']);
         });
 
         Schema::create('plans', function (Blueprint $table) {

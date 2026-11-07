@@ -35,48 +35,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ $title ?? config('app.name', 'Gimnasio') }}</title>
+    <title>{{ $title ? $title.' · '.$gymName : config('app.name', 'Gimnasio') }}</title>
 
     {{-- Si en layouts/app.blade.php agregaste fuentes propias (por ejemplo la de font-heading), copiá esas líneas acá --}}
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    {{-- Define si el menú arranca abierto o cerrado ANTES de dibujar la página, para que no parpadee --}}
-    <script>
-        (function () {
-            var open = window.matchMedia('(min-width: 1024px)').matches;
-            try {
-                if (open && localStorage.getItem('sidebar') === 'closed') open = false;
-            } catch (e) {}
-            document.documentElement.dataset.sidebar = open ? 'open' : 'closed';
-        })();
-    </script>
+    {{-- Decide si el menú arranca abierto o cerrado ANTES de dibujar la página (evita el parpadeo).
+         Va como archivo normal en public/js, no por Vite, porque tiene que ejecutarse de inmediato. --}}
+    <script src="{{ asset('js/sidebar-init.js') }}"></script>
 
-    <style>
-        /* Menú cerrado por defecto; se abre con data-sidebar="open" en <html> */
-        #sidebar { transform: translateX(-100%); transition: transform .2s ease; }
-        html[data-sidebar="open"] #sidebar { transform: none; }
-
-        #sidebar-backdrop { display: none; }
-
-        /* Celular: el menú se abre encima del contenido, con fondo oscuro */
-        @media (max-width: 1023.98px) {
-            html[data-sidebar="open"] #sidebar-backdrop { display: block; }
-            html[data-sidebar="open"] body { overflow: hidden; }
-        }
-
-        /* Computadora: el menú abierto empuja el contenido */
-        @media (min-width: 1024px) {
-            #page { transition: padding-left .2s ease; }
-            html[data-sidebar="open"] #page { padding-left: 16rem; }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            #sidebar, #page { transition: none; }
-        }
-    </style>
-
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite([
+        'resources/css/app.css',
+        'resources/css/sidebar.css',
+        'resources/js/app.js',
+        'resources/js/sidebar.js',
+    ])
 </head>
 <body class="bg-stone-50 font-sans text-stone-900 antialiased">
 
@@ -146,7 +120,9 @@
                                         $href = route('dashboard') . $item['anchor'];
                                     }
 
-                                    $active = ! empty($item['route']) && request()->routeIs($item['route']);
+                                    // "members.index" también marca activo en members.show, members.edit, etc.
+                                    $routeBase = ! empty($item['route']) ? \Illuminate\Support\Str::before($item['route'], '.') : null;
+                                    $active = $routeBase && request()->routeIs($routeBase . '.*', $item['route']);
                                 @endphp
 
                                 <li>
@@ -241,91 +217,22 @@
         </header>
 
         <main>
+            {{-- Mensaje de confirmación (por ejemplo "Socio registrado") --}}
+            @if (session('status'))
+                <div class="px-6 pt-6 lg:px-10 xl:px-14">
+                    <div class="mx-auto max-w-7xl">
+                        <p role="status" class="rounded-lg border border-lime-300 bg-lime-50 px-4 py-3 text-sm font-medium text-lime-900">
+                            {{ session('status') }}
+                        </p>
+                    </div>
+                </div>
+            @endif
+
             {{ $slot }}
         </main>
     </div>
 
-    <script>
-        (function () {
-            var root = document.documentElement;
-            var sidebar = document.getElementById('sidebar');
-            var toggle = document.getElementById('sidebar-toggle');
-            var closeButton = document.getElementById('sidebar-close');
-            var backdrop = document.getElementById('sidebar-backdrop');
-            var desktop = window.matchMedia('(min-width: 1024px)');
-
-            function isOpen() {
-                return root.dataset.sidebar === 'open';
-            }
-
-            // Sincroniza el botón y bloquea el foco dentro del menú cuando está cerrado
-            function render() {
-                toggle.setAttribute('aria-expanded', String(isOpen()));
-                sidebar.inert = !isOpen();
-            }
-
-            function setOpen(open, remember) {
-                root.dataset.sidebar = open ? 'open' : 'closed';
-
-                // En computadora se recuerda la última elección
-                if (remember && desktop.matches) {
-                    try {
-                        localStorage.setItem('sidebar', open ? 'open' : 'closed');
-                    } catch (e) {}
-                }
-
-                render();
-            }
-
-            toggle.addEventListener('click', function () {
-                var willOpen = !isOpen();
-                setOpen(willOpen, true);
-
-                // En celular, al abrir el menú el foco pasa al botón de cerrar
-                if (willOpen && !desktop.matches) {
-                    closeButton.focus();
-                }
-            });
-
-            closeButton.addEventListener('click', function () {
-                setOpen(false, false);
-                toggle.focus();
-            });
-
-            backdrop.addEventListener('click', function () {
-                setOpen(false, false);
-            });
-
-            // Escape cierra el menú en celular
-            document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape' && isOpen() && !desktop.matches) {
-                    setOpen(false, false);
-                    toggle.focus();
-                }
-            });
-
-            // En celular, tocar un enlace del menú lo cierra
-            sidebar.addEventListener('click', function (event) {
-                if (!desktop.matches && event.target.closest('a')) {
-                    setOpen(false, false);
-                }
-            });
-
-            // Si se cambia el tamaño de la ventana (por ejemplo, al girar el celular)
-            desktop.addEventListener('change', function (event) {
-                var open = event.matches;
-
-                if (event.matches) {
-                    try {
-                        open = localStorage.getItem('sidebar') !== 'closed';
-                    } catch (e) {}
-                }
-
-                setOpen(open, false);
-            });
-
-            render();
-        })();
-    </script>
+    {{-- Scripts propios de cada pantalla (se agregan con @push('scripts')) --}}
+    @stack('scripts')
 </body>
 </html>

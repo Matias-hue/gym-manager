@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -53,6 +54,33 @@ class Member extends Model
         );
     }
 
+    /**
+     * Busca por nombre, apellido, teléfono o documento (si lo tiene).
+     * Cada palabra tiene que aparecer en algún campo: "juan per" encuentra a Juan Pérez.
+     */
+    public function scopeSearch(Builder $query, ?string $term): Builder
+    {
+        $words = preg_split('/\s+/', trim((string) $term), -1, PREG_SPLIT_NO_EMPTY);
+
+        foreach ($words as $word) {
+            $like = '%'.addcslashes($word, '%_\\').'%';
+
+            $query->where(function (Builder $q) use ($like) {
+                $q->where('first_name', 'like', $like)
+                    ->orWhere('last_name', 'like', $like)
+                    ->orWhere('phone', 'like', $like)
+                    ->orWhere('document_number', 'like', $like);
+            });
+        }
+
+        return $query;
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return trim($this->first_name.' '.$this->last_name);
+    }
+
     // current (al día) | grace (en gracia) | expired (vencido) | none (nunca pagó)
     public function state(): string
     {
@@ -68,21 +96,21 @@ class Member extends Model
             ->count();
     }
 
+    // Enlace de WhatsApp con el mensaje escrito. Celulares argentinos: 549 + código de área + número.
     public function whatsappUrl(string $message): ?string
-{
-    $digits = preg_replace('/\D+/', '', $this->phone ?? '');
+    {
+        $digits = preg_replace('/\D+/', '', $this->phone ?? '');
 
-    if ($digits === '') {
-        return null;
+        if ($digits === '') {
+            return null;
+        }
+
+        if (! str_starts_with($digits, '54')) {
+            $digits = '549'.ltrim($digits, '0');
+        } elseif (! str_starts_with($digits, '549')) {
+            $digits = '549'.substr($digits, 2);
+        }
+
+        return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
     }
-
-    // Celulares argentinos en WhatsApp: 549 + código de área + número
-    if (! str_starts_with($digits, '54')) {
-        $digits = '549'.ltrim($digits, '0');
-    } elseif (! str_starts_with($digits, '549')) {
-        $digits = '549'.substr($digits, 2);
-    }
-
-    return 'https://wa.me/'.$digits.'?text='.rawurlencode($message);
-}
 }

@@ -1,0 +1,42 @@
+/* Menú lateral. Cerrado por defecto; se abre con data-sidebar="open" en <html>. */
+#sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+}
+
+html[data-sidebar="open"] #sidebar {
+    transform: none;
+}
+
+#sidebar-backdrop {
+    display: none;
+}
+
+/* Celular: el menú se abre encima del contenido, con fondo oscuro */
+@media (max-width: 1023.98px) {
+    html[data-sidebar="open"] #sidebar-backdrop {
+        display: block;
+    }
+
+    html[data-sidebar="open"] body {
+        overflow: hidden;
+    }
+}
+
+/* Computadora: el menú abierto empuja el contenido */
+@media (min-width: 1024px) {
+    #page {
+        transition: padding-left 0.2s ease;
+    }
+
+    html[data-sidebar="open"] #page {
+        padding-left: 16rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #sidebar,
+    #page {
+        transition: none;
+    }
+}

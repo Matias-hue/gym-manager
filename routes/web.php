@@ -20,7 +20,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::resource('members', MemberController::class);
+    Route::resource('members', MemberController::class)->except('destroy');
 
     // Cobrar: formulario y guardado, con el socio ya elegido
     Route::get('members/{member}/collect', [PaymentController::class, 'create'])->name('payments.create');
@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 
     Route::post('attendances', [AttendanceController::class, 'store'])->name('attendances.store');
     Route::get('dues', [DueController::class, 'index'])->name('dues.index');
+    Route::post('dues/{member}/notify', [DueController::class, 'notify'])->name('dues.notify');
 
     // Solo el dueño
     Route::middleware('can:owner')->group(function () {
