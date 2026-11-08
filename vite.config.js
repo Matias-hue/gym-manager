@@ -15,6 +15,7 @@ export default defineConfig({
                 'resources/css/attendance.css',
                 'resources/js/attendance.js',
                 'resources/js/form-guard.js',
+                'resources/js/auth.js',
             ],
             refresh: true,
         }),
