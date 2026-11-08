@@ -10,6 +10,7 @@ use App\Http\Controllers\MembershipController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\CashController;
 
 Route::redirect('/', '/dashboard');
 
@@ -35,6 +36,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('attendances/{attendance}', [AttendanceController::class, 'destroy'])->name('attendances.destroy');
     Route::get('dues', [DueController::class, 'index'])->name('dues.index');
     Route::post('dues/{member}/notify', [DueController::class, 'notify'])->name('dues.notify');
+
+    Route::get('cash', [CashController::class, 'index'])->name('cash.index');
+    Route::post('cash/open', [CashController::class, 'open'])->name('cash.open');
+    Route::get('cash/{cashSession}', [CashController::class, 'show'])->name('cash.show');
+    Route::post('cash/{cashSession}/movements', [CashController::class, 'storeMovement'])->name('cash.movements.store');
+    Route::post('cash/{cashSession}/close', [CashController::class, 'close'])->name('cash.close');
 
     // Solo el dueño
     Route::middleware('can:owner')->group(function () {

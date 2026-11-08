@@ -14,7 +14,7 @@ return [
     ['group' => 'main', 'label' => 'Vencimientos', 'icon' => 'calendar',
         'route' => 'dues.index'],
     ['group' => 'main', 'label' => 'Caja del día', 'icon' => 'bank',
-        'route' => null], // luego: 'cash.index'
+        'route' => 'cash.index'],
     ['group' => 'main', 'label' => 'Reportes', 'icon' => 'chart',
         'route' => null, 'owner_only' => true], // luego: 'reports.index'
     ['group' => 'modules', 'label' => 'Entrenamiento', 'icon' => 'dumbbell',
