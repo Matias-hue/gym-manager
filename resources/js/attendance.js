@@ -14,16 +14,22 @@ document.addEventListener('DOMContentLoaded', () => {
     initSuggestions(input);
 });
 
-// El campo queda siempre listo para el próximo socio
+// En computadora el campo queda siempre listo para el próximo socio.
+// En celular o tablet no se fuerza el foco, para que no salte el teclado solo.
 function initFocus(input) {
-    input.focus();
+    if (!window.matchMedia('(pointer: fine)').matches) {
+        return;
+    }
+
+    input.focus({ preventScroll: true });
     input.select();
 
-    // Si el foco se pierde sin querer, vuelve al campo
     document.addEventListener('click', (event) => {
-        const interactive = event.target.closest('a, button, input, select, textarea');
-        if (!interactive) {
-            input.focus();
+        const interactive = event.target.closest('a, button, input, select, textarea, label');
+        const selecting = String(window.getSelection()).length > 0;
+
+        if (!interactive && !selecting) {
+            input.focus({ preventScroll: true });
         }
     });
 }
