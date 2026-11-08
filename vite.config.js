@@ -14,6 +14,7 @@ export default defineConfig({
                 'resources/js/payments/create.js',
                 'resources/css/attendance.css',
                 'resources/js/attendance.js',
+                'resources/js/form-guard.js',
             ],
             refresh: true,
         }),

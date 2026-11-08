@@ -3,6 +3,9 @@
     $attendances, $expected, $result, $matches, $notice
 --}}
 <x-gym-layout title="Visitas">
+    {{-- Modal de confirmación: lo usa el botón "Quitar" de los ingresos de hoy --}}
+    <x-confirm-modal />
+
     <section
         id="attendance"
         class="min-h-[calc(100vh-3.5rem)] w-full px-6 py-9 lg:px-10 lg:py-10 xl:px-14"
@@ -43,6 +46,6 @@
     </section>
 
     @push('scripts')
-        @vite(['resources/css/attendance.css', 'resources/js/attendance.js'])
+        @vite(['resources/css/attendance.css', 'resources/js/attendance.js', 'resources/js/form-guard.js'])
     @endpush
 </x-gym-layout>

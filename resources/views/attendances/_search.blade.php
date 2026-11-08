@@ -27,7 +27,8 @@
 
             <button
                 type="submit"
-                class="inline-flex min-h-11 items-center justify-center rounded-lg bg-lime-400 px-6 text-sm font-semibold text-stone-950 transition hover:bg-lime-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2"
+                data-loading-text="Anotando…"
+                class="inline-flex min-h-11 items-center justify-center rounded-lg bg-stone-950 px-6 text-sm font-semibold text-white transition hover:bg-stone-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-lime-400 focus-visible:ring-offset-2"
             >
                 Anotar
             </button>

@@ -29,13 +29,16 @@
                 <form
                     method="POST"
                     action="{{ route('attendances.destroy', $attendance) }}"
-                    data-confirm="¿Quitar la visita de {{ $attendance->member->first_name }} {{ $attendance->member->last_name }}?"
+                    data-confirm="Se va a quitar la visita de {{ $attendance->member->first_name }} {{ $attendance->member->last_name }} de hoy."
+                    data-confirm-title="Quitar visita"
+                    data-confirm-button="Quitar"
                 >
                     @csrf
                     @method('DELETE')
 
                     <button
                         type="submit"
+                        data-loading-text="Quitando…"
                         class="inline-flex min-h-11 items-center rounded-lg px-3 text-sm font-medium text-red-700 transition hover:bg-red-50 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                     >
                         Quitar

@@ -7,6 +7,21 @@
     animation: attendance-shake 0.35s ease-in-out;
 }
 
+/* Botones bloqueados mientras se envía un formulario */
+#attendance button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+/* Modal de confirmación */
+.confirm-modal[open] {
+    animation: attendance-pop 0.2s ease-out;
+}
+
+.confirm-modal::backdrop {
+    animation: attendance-fade 0.2s ease-out;
+}
+
 @keyframes attendance-pop {
     from {
         opacity: 0;
@@ -16,6 +31,11 @@
         opacity: 1;
         transform: none;
     }
+}
+
+@keyframes attendance-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 @keyframes attendance-shake {

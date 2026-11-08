@@ -1,7 +1,7 @@
-// Pantalla de visitas: foco, sugerencias en vivo y confirmación al quitar.
+// Pantalla de visitas: foco y sugerencias en vivo.
+// El bloqueo de doble clic y el modal de confirmación están aparte, en form-guard.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    initConfirm();
 
     const input = document.getElementById('attendance-code');
 
@@ -83,7 +83,7 @@ function initSuggestions(input) {
 
             item.addEventListener('click', () => {
                 pickInput.value = member.id;
-                pickForm.submit();
+                pickForm.requestSubmit(); // dispara el bloqueo de form-guard.js
             });
 
             box.append(item);
@@ -167,16 +167,5 @@ function initSuggestions(input) {
         if (!box.contains(event.target) && event.target !== input) {
             hide();
         }
-    });
-}
-
-// Los formularios con data-confirm piden confirmación antes de enviarse
-function initConfirm() {
-    document.querySelectorAll('form[data-confirm]').forEach((form) => {
-        form.addEventListener('submit', (event) => {
-            if (!window.confirm(form.dataset.confirm)) {
-                event.preventDefault();
-            }
-        });
     });
 }
