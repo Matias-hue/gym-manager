@@ -22,6 +22,11 @@
                 >
                     Nuevo socio
                 </a>
+
+                <a href="{{ route('members.bulk.create') }}"
+                class="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-stone-50">
+                    Cargar varios
+                </a>
             </header>
 
             {{-- BUSCADOR Y FILTROS --}}

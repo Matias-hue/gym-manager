@@ -11,6 +11,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CashController;
+use App\Http\Controllers\MemberBulkController;
 
 Route::redirect('/', '/dashboard');
 
@@ -20,6 +21,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+    Route::get('members/bulk', [MemberBulkController::class, 'create'])->name('members.bulk.create');
+    Route::post('members/bulk', [MemberBulkController::class, 'store'])->name('members.bulk.store');
 
     Route::resource('members', MemberController::class)->except('destroy');
 

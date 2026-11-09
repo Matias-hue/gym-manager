@@ -16,6 +16,7 @@ export default defineConfig({
                 'resources/js/attendance.js',
                 'resources/js/form-guard.js',
                 'resources/js/auth.js',
+                'resources/js/members/bulk.js',
             ],
             refresh: true,
         }),
