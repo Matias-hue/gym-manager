@@ -1,6 +1,6 @@
 <x-auth-layout title="Ingresar">
     <h1 class="text-2xl font-semibold text-stone-900">Ingresá a tu cuenta</h1>
-    <p class="mt-1 text-sm text-stone-500">Usá el correo y la clave que te dio el dueño del gimnasio.</p>
+    <p class="mt-1 text-sm text-stone-500">Usá los datos de acceso que recibiste.</p>
 
     {{-- Mensaje de sesión (por ejemplo, "clave restablecida") --}}
     @if (session('status'))

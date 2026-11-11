@@ -16,17 +16,19 @@
                     </h1>
                 </div>
 
-                <a
-                    href="{{ route('members.create') }}"
-                    class="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-950 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98]"
-                >
-                    Nuevo socio
-                </a>
+                <div>
+                    <a
+                        href="{{ route('members.create') }}"
+                        class="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-950 bg-stone-950 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-stone-800 active:scale-[0.98]"
+                    >
+                        Nuevo socio
+                    </a>
 
-                <a href="{{ route('members.bulk.create') }}"
-                class="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-stone-50">
-                    Cargar varios
-                </a>
+                    <a href="{{ route('members.bulk.create') }}"
+                    class="inline-flex min-h-11 items-center justify-center rounded-lg border border-stone-300 bg-white px-4 py-2.5 text-sm font-semibold text-stone-950 transition hover:bg-stone-50">
+                        Cargar varios
+                    </a>
+                    </div>
             </header>
 
             {{-- BUSCADOR Y FILTROS --}}

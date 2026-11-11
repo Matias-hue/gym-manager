@@ -38,10 +38,10 @@
 
             <div>
                 <h2 class="max-w-md text-4xl font-semibold leading-tight text-white">
-                    Socios, cuotas y vencimientos en un solo lugar.
+                    Todo en orden, todos los días.
                 </h2>
                 <p class="mt-4 max-w-md text-base text-stone-400">
-                    Cobrá, controlá las visitas y avisá por WhatsApp sin depender del cuaderno.
+                    Tu gimnasio funcionando como vos querés.
                 </p>
             </div>
 
