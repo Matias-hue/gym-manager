@@ -16,7 +16,7 @@ return [
     ['group' => 'main', 'label' => 'Caja del día', 'icon' => 'bank',
         'route' => 'cash.index'],
     ['group' => 'main', 'label' => 'Reportes', 'icon' => 'chart',
-        'route' => null, 'owner_only' => true], // luego: 'reports.index'
+        'route' => 'reports.index', 'owner_only' => true],
     ['group' => 'modules', 'label' => 'Entrenamiento', 'icon' => 'dumbbell',
         'route' => null],
 ];

@@ -1,0 +1,55 @@
+/*
+ * Estilos propios del módulo de reportes.
+ * Todo lo demás se resuelve con clases de Tailwind en las vistas Blade.
+ */
+
+/* Contenedores de gráficos: Chart.js necesita una altura definida. */
+.reports .chart-box {
+    position: relative;
+    height: 20rem;
+}
+
+.reports .chart-box--sm {
+    height: 16rem;
+}
+
+@media (max-width: 640px) {
+    .reports .chart-box,
+    .reports .chart-box--sm {
+        height: 15rem;
+    }
+}
+
+/* Impresión / "Guardar como PDF" */
+@page {
+    size: A4 landscape;
+    margin: 10mm;
+}
+
+@media print {
+    body {
+        background: #fff !important;
+    }
+
+    /* Menú lateral y controles: ajustá estos selectores si tu layout usa otros. */
+    .no-print,
+    aside,
+    [data-sidebar] {
+        display: none !important;
+    }
+
+    .reports {
+        max-width: none !important;
+        padding: 0 !important;
+    }
+
+    .reports .report-card {
+        break-inside: avoid;
+        box-shadow: none !important;
+    }
+
+    .reports .chart-box,
+    .reports .chart-box--sm {
+        height: 13rem;
+    }
+}

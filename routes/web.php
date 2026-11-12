@@ -12,6 +12,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\CashController;
 use App\Http\Controllers\MemberBulkController;
+use App\Http\Controllers\ReportExportController;
 
 Route::redirect('/', '/dashboard');
 
@@ -50,8 +51,12 @@ Route::middleware('auth')->group(function () {
 
     // Solo el dueño
     Route::middleware('can:owner')->group(function () {
-        Route::resource('plans', PlanController::class)->except('show');
-        Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::resource('plans', PlanController::class)->except('show');
+
+    Route::get('reports', [ReportController::class, 'index'])->name('reports.index');
+    Route::get('reports/export/{report}', ReportExportController::class)
+        ->name('reports.export')
+        ->whereIn('report', ['payments', 'members', 'attendance', 'cash']);
     });
 });
 

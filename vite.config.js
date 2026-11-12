@@ -17,6 +17,8 @@ export default defineConfig({
                 'resources/js/form-guard.js',
                 'resources/js/auth.js',
                 'resources/js/members/bulk.js',
+                'resources/css/reports.css',
+                'resources/js/reports.js',
             ],
             refresh: true,
         }),
