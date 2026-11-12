@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Concerns\BelongsToGym;
 
 class Payment extends Model
 {
+    use BelongsToGym;
+    
     protected $fillable = [
     'gym_id',
     'member_id',

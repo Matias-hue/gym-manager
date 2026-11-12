@@ -259,6 +259,7 @@ class ReportsTest extends TestCase
     private function membership(Member $member, string $endsOn): Membership
     {
         return Membership::create([
+            'gym_id' => $member->gym_id,
             'member_id'     => $member->id,
             'plan_id'       => $this->plan->id,
             'starts_on'     => Carbon::parse($endsOn)->subMonth()->toDateString(),

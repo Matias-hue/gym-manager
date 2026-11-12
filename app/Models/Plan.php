@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Models\Concerns\BelongsToGym;
 
 class Plan extends Model
 {
+    use BelongsToGym;
+    
     use SoftDeletes;
 
     protected $guarded = [];

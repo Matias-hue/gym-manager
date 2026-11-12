@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use App\Models\Concerns\BelongsToGym;
 
 class Member extends Model
 {
+    use BelongsToGym;
+    
     use SoftDeletes;
 
     protected $guarded = [];
@@ -23,11 +26,6 @@ class Member extends Model
         static::creating(function (Member $member) {
             $member->qr_code ??= (string) Str::uuid();
         });
-    }
-
-    public function gym(): BelongsTo
-    {
-        return $this->belongsTo(Gym::class);
     }
 
     public function memberships(): HasMany

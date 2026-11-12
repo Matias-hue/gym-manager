@@ -30,6 +30,7 @@ class CollectPayment
                 : $starts->copy()->addMonthsNoOverflow($months);
 
             $membership = Membership::create([
+                'gym_id' => $member->gym_id,
                 'member_id' => $member->id,
                 'plan_id' => $plan->id,
                 'time_slot' => $data['time_slot'] ?? null,
@@ -57,6 +58,7 @@ class CollectPayment
 
             if ($session) {
                 CashMovement::create([
+                    'gym_id' => $member->gym_id,
                     'cash_session_id' => $session->id,
                     'type' => 'income',
                     'concept' => "Cuota {$plan->name} - {$member->first_name} {$member->last_name}",

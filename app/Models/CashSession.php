@@ -7,9 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Collection;
+use App\Models\Concerns\BelongsToGym;
 
 class CashSession extends Model
 {
+    use BelongsToGym;
+    
     protected $guarded = [];
 
     protected $casts = [
@@ -23,11 +26,6 @@ class CashSession extends Model
         'card' => 'Tarjeta',
         'online' => 'Online',
     ];
-
-    public function gym(): BelongsTo
-    {
-        return $this->belongsTo(Gym::class);
-    }
 
     public function openedBy(): BelongsTo
     {

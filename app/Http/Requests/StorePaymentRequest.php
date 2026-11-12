@@ -21,7 +21,7 @@ class StorePaymentRequest extends FormRequest
             'plan_id' => [
                 'required',
                 Rule::exists('plans', 'id')
-                    ->where('gym_id', $gymId)
+                    ->where('gym_id', $this->user()->gym_id)
                     ->where('active', true)
                     ->whereNull('deleted_at'),
             ],
