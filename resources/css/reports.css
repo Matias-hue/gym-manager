@@ -22,7 +22,7 @@
 
 /* Impresión / "Guardar como PDF" */
 @page {
-    size: A4 landscape;
+    size: A4 portrait;
     margin: 10mm;
 }
 
@@ -31,11 +31,23 @@
         background: #fff !important;
     }
 
-    /* Menú lateral y controles: ajustá estos selectores si tu layout usa otros. */
-    .no-print,
-    aside,
-    [data-sidebar] {
+    /* Ocultar todo lo que no contiene ni es parte del reporte (menú, cabeceras, etc.) */
+    body *:not(:has(.reports)):not(.reports):not(.reports *) {
         display: none !important;
+    }
+
+    /* Los contenedores del layout pasan a bloque simple, sin alturas ni scroll */
+    *:has(.reports) {
+        display: block !important;
+        height: auto !important;
+        min-height: 0 !important;
+        width: auto !important;
+        max-width: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        position: static !important;
+        transform: none !important;
     }
 
     .reports {
@@ -43,13 +55,33 @@
         padding: 0 !important;
     }
 
+    .no-print {
+        display: none !important;
+    }
+
+    /* Espacio entre tarjetas y que no se partan a mitad de página */
     .reports .report-card {
         break-inside: avoid;
+        page-break-inside: avoid;
         box-shadow: none !important;
     }
 
-    .reports .chart-box,
+        .reports .chart-box,
     .reports .chart-box--sm {
         height: 13rem;
+        overflow: hidden;
+    }
+
+    /* El gráfico ocupa exactamente su caja, sin importar el tamaño que tenía en pantalla */
+    .reports .chart-box canvas {
+        position: absolute;
+        inset: 0;
+        width: 100% !important;
+        height: 100% !important;
+    }
+
+    /* Aire entre una sección y la siguiente */
+    .reports > div > * + * {
+        margin-top: 1.5rem;
     }
 }
